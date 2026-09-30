@@ -6,151 +6,239 @@
   
   <!-- SEO & Verification -->
   <title>DailyProteinCalc - Gym & Daily Protein Intake Calculator</title>
-  <meta name="description" content="Calculate your daily protein requirement for gym muscle building or standard health. Track Indian fitness foods like soya chunks, paneer, eggs, chicken, and add custom meals.">
+  <meta name="description" content="Calculate your daily protein requirements for bodybuilding, gym workouts, or standard health. Track Indian fitness foods like soya chunks, paneer, eggs, chicken, and log meals.">
   <meta name="keywords" content="protein calculator, gym protein intake, soya chunks protein, paneer protein tracker, daily macro tracker">
   <meta name="google-site-verification" content="google6f86d9479ff3a205" />
 
   <style>
     :root {
-      --bg: #0f172a;
-      --card: #1e293b;
-      --card-border: #334155;
+      --bg: #0b1329;
+      --card: #152238;
+      --card-border: #1e3a5f;
       --primary: #38bdf8;
       --primary-hover: #0284c7;
       --accent: #22c55e;
+      --accent-bg: rgba(34, 197, 94, 0.15);
       --text: #f8fafc;
       --text-muted: #94a3b8;
     }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     }
+
     body {
       background: var(--bg);
       color: var(--text);
       padding: 24px 16px;
       display: flex;
       justify-content: center;
+      min-height: 100vh;
     }
+
     .container {
       width: 100%;
-      max-width: 680px;
+      max-width: 1100px; /* Expands nicely for laptop screens */
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
+
     header {
       text-align: center;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
+
     header h1 {
-      font-size: 1.8rem;
+      font-size: 2.1rem;
       color: var(--primary);
+      letter-spacing: -0.5px;
     }
+
     header p {
       color: var(--text-muted);
-      font-size: 0.95rem;
+      font-size: 1rem;
       margin-top: 4px;
     }
+
+    /* Tip Card */
+    .tip-card {
+      background: #111e38;
+      border: 1px dashed #2563eb;
+      border-radius: 10px;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+    }
+    .tip-badge {
+      background: #2563eb;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    /* Main Dashboard Grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    /* Desktop / Laptop Layout */
+    @media (min-width: 850px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr 1.1fr;
+        align-items: start;
+      }
+    }
+
     .card {
       background: var(--card);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
     }
+
     h2 {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       margin-bottom: 14px;
+      color: #e2e8f0;
       display: flex;
       align-items: center;
       gap: 8px;
     }
+
     .input-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
+
+    .full-width {
+      grid-column: span 2;
+    }
+
     label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
       margin-bottom: 6px;
+      font-weight: 500;
     }
+
     input, select {
       width: 100%;
       padding: 10px 12px;
       border-radius: 8px;
       border: 1px solid var(--card-border);
-      background: #0b1120;
+      background: #091024;
       color: var(--text);
       font-size: 0.95rem;
       outline: none;
+      transition: border-color 0.2s;
     }
+
     input:focus, select:focus {
       border-color: var(--primary);
     }
+
     .target-results {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
+      margin-bottom: 16px;
     }
+
     .target-box {
-      background: #0b1120;
+      background: #091024;
       border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 12px;
+      border-radius: 10px;
+      padding: 14px;
       text-align: center;
+      transition: all 0.2s ease;
     }
+
     .target-box.active {
       border-color: var(--accent);
-      background: #052e16;
+      background: var(--accent-bg);
     }
+
     .target-box span {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
+
     .target-box strong {
       display: block;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       color: var(--text);
       margin-top: 4px;
     }
+
     .progress-section {
-      margin-top: 14px;
+      margin-top: 10px;
     }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
     .progress-bar-bg {
       width: 100%;
       height: 12px;
-      background: #0b1120;
+      background: #091024;
       border-radius: 6px;
       overflow: hidden;
-      margin-top: 6px;
     }
+
     .progress-bar-fill {
       height: 100%;
       width: 0%;
       background: var(--accent);
       transition: width 0.3s ease;
     }
-    .progress-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 4px;
+
+    .suggestion-box {
+      background: #0f1e3d;
+      border: 1px solid #1d4ed8;
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 16px;
+      font-size: 0.9rem;
+      line-height: 1.4;
     }
+
+    .suggestion-box strong {
+      color: var(--primary);
+    }
+
+    /* Food presets grid */
     .preset-list {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
       gap: 10px;
+      margin-bottom: 18px;
     }
+
     .food-btn {
-      background: #0b1120;
+      background: #091024;
       border: 1px solid var(--card-border);
       border-radius: 8px;
       padding: 10px 8px;
@@ -159,27 +247,35 @@
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
       transition: border-color 0.2s, background 0.2s;
     }
+
     .food-btn:hover {
       border-color: var(--primary);
-      background: #172554;
+      background: #101c38;
     }
+
     .food-btn span {
       font-size: 0.75rem;
       color: var(--text-muted);
     }
+
+    /* Custom Input Row */
     .custom-row {
       display: flex;
       gap: 8px;
-      margin-top: 12px;
-      flex-wrap: wrap;
+      margin-bottom: 14px;
     }
-    .custom-row input {
+
+    .custom-row input[type="text"] {
+      flex: 2;
+    }
+
+    .custom-row input[type="number"] {
       flex: 1;
-      min-width: 120px;
     }
+
     .btn-action {
       background: var(--primary);
       color: #04101f;
@@ -189,52 +285,141 @@
       padding: 10px 16px;
       cursor: pointer;
       transition: background 0.2s;
+      white-space: nowrap;
     }
+
     .btn-action:hover {
       background: var(--primary-hover);
     }
+
     .log-list {
       list-style: none;
-      margin-top: 12px;
       display: flex;
       flex-direction: column;
       gap: 8px;
-      max-height: 220px;
+      max-height: 200px;
       overflow-y: auto;
     }
+
     .log-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #0b1120;
+      background: #091024;
       padding: 8px 12px;
       border-radius: 6px;
       font-size: 0.9rem;
     }
+
     .log-delete {
       background: none;
       border: none;
       color: #ef4444;
       cursor: pointer;
       font-size: 1rem;
-      padding: 0 4px;
+      padding: 0 6px;
     }
-    .suggestion-box {
-      background: #172554;
-      border: 1px solid #1e40af;
-      border-radius: 8px;
-      padding: 12px;
-      margin-top: 14px;
-      font-size: 0.9rem;
+
+    /* FAQ Section */
+    .faq-section {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 24px;
     }
-    .suggestion-box strong {
+
+    .faq-section h2 {
+      font-size: 1.3rem;
+      margin-bottom: 16px;
       color: var(--primary);
     }
+
+    .faq-item {
+      border-bottom: 1px solid #1e293b;
+      padding: 14px 0;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-question {
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #f1f5f9;
+      font-size: 0.95rem;
+    }
+
+    .faq-answer {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-top: 8px;
+      display: none;
+    }
+
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+
+    .faq-item.open .faq-toggle {
+      transform: rotate(180deg);
+    }
+
+    .faq-toggle {
+      transition: transform 0.2s ease;
+    }
+
+    /* Donate Section */
+    .donate-card {
+      background: linear-gradient(135deg, #132742 0%, #101c38 100%);
+      border: 1px solid #1e40af;
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .donate-card h3 {
+      font-size: 1.15rem;
+      color: #f8fafc;
+    }
+
+    .donate-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 500px;
+    }
+
+    .btn-donate {
+      background: #f59e0b;
+      color: #0b1120;
+      font-weight: 700;
+      padding: 10px 22px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: opacity 0.2s;
+    }
+
+    .btn-donate:hover {
+      opacity: 0.9;
+    }
+
     footer {
       text-align: center;
       color: var(--text-muted);
       font-size: 0.8rem;
-      margin-top: 10px;
+      margin-top: 8px;
+      margin-bottom: 16px;
     }
   </style>
 </head>
@@ -243,110 +428,183 @@
   <div class="container">
     <header>
       <h1>DailyProteinCalc</h1>
-      <p>Target calculator and tracker for fitness & muscle gain</p>
+      <p>Target calculator and instant daily food tracker</p>
     </header>
 
-    <!-- Calculator Section -->
-    <div class="card">
-      <h2>1. Set Target</h2>
-      <div class="input-grid">
-        <div>
-          <label for="weight">Weight (kg)</label>
-          <input type="number" id="weight" value="65" min="30" max="250">
+    <!-- Did You Know Tip Card -->
+    <div class="tip-card">
+      <span class="tip-badge">DID YOU KNOW?</span>
+      <span id="fact-text">Loading fitness tip...</span>
+    </div>
+
+    <!-- Main App Split Layout -->
+    <div class="dashboard-grid">
+      
+      <!-- Left Column: Target & Goal Status -->
+      <div class="card">
+        <h2>🎯 1. Target Calculator</h2>
+        <div class="input-grid">
+          <div>
+            <label for="weight">Weight (kg)</label>
+            <input type="number" id="weight" value="65" min="30" max="250">
+          </div>
+          <div>
+            <label for="height">Height (cm)</label>
+            <input type="number" id="height" value="172" min="100" max="240">
+          </div>
+          <div class="full-width">
+            <label for="activity">Training Objective</label>
+            <select id="activity">
+              <option value="gym" selected>Gym & Hypertrophy / Muscle Gain (1.8g/kg)</option>
+              <option value="normal">Normal Health & Maintenance (0.9g/kg)</option>
+            </select>
+          </div>
         </div>
-        <div>
-          <label for="height">Height (cm)</label>
-          <input type="number" id="height" value="172" min="100" max="240">
+
+        <div class="target-results">
+          <div class="target-box" id="box-normal">
+            <span>Maintenance</span>
+            <strong id="val-normal">58.5g</strong>
+          </div>
+          <div class="target-box active" id="box-gym">
+            <span>Gym Goal</span>
+            <strong id="val-gym">117g</strong>
+          </div>
         </div>
-        <div>
-          <label for="activity">Mode</label>
-          <select id="activity">
-            <option value="gym" selected>Gym / Muscle Gain (1.8g/kg)</option>
-            <option value="normal">Normal / Maintenance (0.9g/kg)</option>
-          </select>
+
+        <div class="progress-section">
+          <div class="progress-labels">
+            <span id="consumed-text">Consumed: 0g</span>
+            <span id="target-text">Goal: 117g</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="suggestion-box" id="suggestion-box">
+          Log your food to see practical recommendations for filling your remaining gap.
         </div>
       </div>
 
-      <div class="target-results">
-        <div class="target-box" id="box-normal">
-          <span>Maintenance</span>
-          <strong id="val-normal">58.5g</strong>
+      <!-- Right Column: Food Presets & Daily Log -->
+      <div class="card">
+        <h2>⚡ 2. Quick Add Staples</h2>
+        <div class="preset-list">
+          <button class="food-btn" onclick="addFood('1 Large Egg', 6)">
+            🥚 1 Large Egg
+            <span>+6g protein</span>
+          </button>
+          <button class="food-btn" onclick="addFood('1 Glass Milk (250ml)', 8)">
+            🥛 Milk (250ml)
+            <span>+8g protein</span>
+          </button>
+          <button class="food-btn" onclick="addFood('100g Chicken Breast', 31)">
+            🍗 Chicken (100g)
+            <span>+31g protein</span>
+          </button>
+          <button class="food-btn" onclick="addFood('100g Soya Chunks', 52)">
+            🌱 Soya Chunks (100g)
+            <span>+52g protein</span>
+          </button>
+          <button class="food-btn" onclick="addFood('100g Paneer', 18)">
+            🧀 Paneer (100g)
+            <span>+18g protein</span>
+          </button>
+          <button class="food-btn" onclick="addFood('1 Bowl Curd / Dahi', 8)">
+            🥣 Curd (200g)
+            <span>+8g protein</span>
+          </button>
+          <button class="food-btn" onclick="addFood('1 Scoop Whey Protein', 24)">
+            🥤 Whey (1 Scoop)
+            <span>+24g protein</span>
+          </button>
+          <button class="food-btn" onclick="addFood('100g Boiled Chana', 9)">
+            🥗 Boiled Chana
+            <span>+9g protein</span>
+          </button>
         </div>
-        <div class="target-box active" id="box-gym">
-          <span>Gym Goal</span>
-          <strong id="val-gym">117g</strong>
+
+        <h2>📝 3. Custom Food Entry</h2>
+        <div class="custom-row">
+          <input type="text" id="custom-name" placeholder="Item name (e.g. 2 Rotis + Dal)">
+          <input type="number" id="custom-protein" placeholder="Prot (g)">
+          <button class="btn-action" onclick="addCustomFood()">Add</button>
+        </div>
+
+        <ul class="log-list" id="log-list"></ul>
+      </div>
+
+    </div>
+
+    <!-- FAQ & Search Terms Section (Boosts Google SEO) -->
+    <div class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          How do I calculate daily protein intake for gym workouts?
+          <span class="faq-toggle">▼</span>
+        </div>
+        <div class="faq-answer">
+          For resistance training and hypertrophy (muscle growth), research recommends consuming between 1.6g and 2.2g of protein per kilogram of body weight. For general wellness and sedentary lifestyle, 0.8g to 1.0g per kg is sufficient.
         </div>
       </div>
 
-      <div class="progress-section">
-        <div class="progress-labels">
-          <span id="consumed-text">Consumed: 0g</span>
-          <span id="target-text">Goal: 117g</span>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          What are the best vegetarian high-protein sources?
+          <span class="faq-toggle">▼</span>
         </div>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" id="progress-fill"></div>
+        <div class="faq-answer">
+          Soya chunks are among the highest vegetarian sources with roughly 52g protein per 100g unbaked. Other solid options include paneer (18g/100g), curd/greek yogurt, boiled chana, moong sprouts, lentils (dal), and whey protein.
         </div>
       </div>
 
-      <div class="suggestion-box" id="suggestion-box">
-        Log your food below to see what items will help you reach your daily protein goal.
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          Does eating more protein automatically build muscle?
+          <span class="faq-toggle">▼</span>
+        </div>
+        <div class="faq-answer">
+          Protein provides the necessary amino acids (building blocks), but progressive overload resistance training is required to stimulate muscle synthesis. Unused excess calories will be burned as energy or stored as body fat.
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          Can I track custom foods that are not in the preset list?
+          <span class="faq-toggle">▼</span>
+        </div>
+        <div class="faq-answer">
+          Yes! Use the Custom Food Entry section above to enter any dish and its exact protein content in grams. It will be added to your live daily total immediately.
+        </div>
       </div>
     </div>
 
-    <!-- Quick Food Logging -->
-    <div class="card">
-      <h2>2. Quick Add Staples</h2>
-      <div class="preset-list">
-        <button class="food-btn" onclick="addFood('1 Large Egg', 6)">
-          🥚 1 Large Egg
-          <span>+6g protein</span>
-        </button>
-        <button class="food-btn" onclick="addFood('1 Glass Milk (250ml)', 8)">
-          🥛 Milk (250ml)
-          <span>+8g protein</span>
-        </button>
-        <button class="food-btn" onclick="addFood('100g Chicken Breast', 31)">
-          🍗 Chicken (100g)
-          <span>+31g protein</span>
-        </button>
-        <button class="food-btn" onclick="addFood('100g Soya Chunks', 52)">
-          🌱 Soya Chunks (100g)
-          <span>+52g protein</span>
-        </button>
-        <button class="food-btn" onclick="addFood('100g Paneer', 18)">
-          🧀 Paneer (100g)
-          <span>+18g protein</span>
-        </button>
-        <button class="food-btn" onclick="addFood('1 Bowl Curd / Dahi', 8)">
-          🥣 Curd (200g)
-          <span>+8g protein</span>
-        </button>
-        <button class="food-btn" onclick="addFood('1 Scoop Whey Protein', 24)">
-          🥤 Whey (1 Scoop)
-          <span>+24g protein</span>
-        </button>
-        <button class="food-btn" onclick="addFood('100g Boiled Chana', 9)">
-          🥗 Boiled Chana
-          <span>+9g protein</span>
-        </button>
-      </div>
-
-      <h2 style="margin-top: 20px;">3. Custom Food Entry</h2>
-      <div class="custom-row">
-        <input type="text" id="custom-name" placeholder="Item name (e.g. Peanut Butter toast)">
-        <input type="number" id="custom-protein" placeholder="Protein (g)" style="max-width: 130px;">
-        <button class="btn-action" onclick="addCustomFood()">Add</button>
-      </div>
-
-      <ul class="log-list" id="log-list"></ul>
+    <!-- Support / Donate Section -->
+    <div class="donate-card">
+      <h3>☕ Support DailyProteinCalc</h3>
+      <p>This web tool is completely free, lightweight, and ad-free. If it helps you track your fitness macros, consider supporting continued hosting and updates!</p>
+      <button class="btn-donate" onclick="showTipAlert()">Support Creator / Buy Coffee</button>
     </div>
 
     <footer>
-      <p>DailyProteinCalc • Lightweight Gym Nutrition Utility</p>
+      <p>DailyProteinCalc • Free Fitness Nutrition Utility • All data saved locally in your browser</p>
     </footer>
   </div>
 
   <script>
+    // Did You Know Facts List
+    const tips = [
+      "Soya chunks offer 52g protein per 100g—more than twice that of chicken breast!",
+      "Distributing protein across 3 to 4 meals optimizes muscle protein synthesis.",
+      "The body absorbs egg protein with a biological value score above 90%, one of the highest of any whole food.",
+      "Whey protein isolate is digested in roughly 60 to 90 minutes, making it ideal post-workout.",
+      "Plant protein sources often complement each other—combining rice and dal yields a complete amino acid profile."
+    ];
+    document.getElementById('fact-text').innerText = tips[Math.floor(Math.random() * tips.length)];
+
     let logs = JSON.parse(localStorage.getItem('protein_logs') || '[]');
     const weightInput = document.getElementById('weight');
     const heightInput = document.getElementById('height');
@@ -432,7 +690,7 @@
         suggestionEl.innerHTML = `<strong>Goal reached!</strong> You have fulfilled your protein goal for today.`;
         suggestionEl.style.borderColor = 'var(--accent)';
       } else {
-        suggestionEl.style.borderColor = '#1e40af';
+        suggestionEl.style.borderColor = '#1d4ed8';
         let tip = `You need <strong>${diff}g</strong> more protein today. Quick fix options: `;
         if (diff > 45) {
           tip += `100g Soya chunks (52g) OR 150g Chicken breast (46g).`;
@@ -445,10 +703,17 @@
       }
     }
 
+    function toggleFaq(el) {
+      el.classList.toggle('open');
+    }
+
+    function showTipAlert() {
+      alert("Thank you for using DailyProteinCalc! You can support this tool via UPI or Buy Me a Coffee soon.");
+    }
+
     weightInput.addEventListener('input', calculateTarget);
     activitySelect.addEventListener('change', calculateTarget);
 
-    // Initial load
     calculateTarget();
   </script>
 </body>
